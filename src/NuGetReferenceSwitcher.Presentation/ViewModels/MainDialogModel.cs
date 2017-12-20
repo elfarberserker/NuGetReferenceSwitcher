@@ -22,7 +22,9 @@ using MyToolkit.Mvvm;
 using MyToolkit.Utilities;
 using NuGetReferenceSwitcher.Presentation.Models;
 using VSLangProj;
-using NuGetReferenceSwitcher.Presentation.Configuration;
+using NuGetReferenceSwitcher.Configuration;
+using NuGetReferenceSwitcher.Presentation.Utils;
+using System.Windows.Controls;
 
 namespace NuGetReferenceSwitcher.Presentation.ViewModels
 {
@@ -34,6 +36,7 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
         {
             Projects = new ExtendedObservableCollection<ProjectModel>();
             Transformations = new ExtendedObservableCollection<FromNuGetToProjectTransformation>();
+            SolutionFolders = new ExtendedObservableCollection<SolutionFolderModel>();
 
             RemoveProjects = true;
             SaveProjects = true;
@@ -45,6 +48,9 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
 
         /// <summary>Gets the NuGet to project switches which are shown in the first tab. </summary>
         public ExtendedObservableCollection<FromNuGetToProjectTransformation> Transformations { get; private set; }
+
+        /// <summary>All solution directories in the root of the solution</summary>
+        public ExtendedObservableCollection<SolutionFolderModel> SolutionFolders { get; private set; }
 
         /// <summary>Gets or sets a value indicating whether the changed projects should be saved. </summary>
         public bool SaveProjects { get; set; }
@@ -97,7 +103,18 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
                 .OrderBy(s => s.FromAssemblyName));
 
             Config.Load()
+                .Save();
 
+            var folders = GetAllSolutionFolders();
+            SolutionFolders.Initialize(folders);
+        }
+
+        public async void SaveConfiguration()
+        {
+            // Save all project configurations
+
+            // Configuration
+            Config.Save();
         }
 
         /// <summary>Switches the NuGet DLL references to the selected project references. </summary>
@@ -139,7 +156,7 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
                                     PathUtilities.MakeRelative(assemblyToProjectSwitch.ToProject.Path,
                                         project.CurrentConfigurationPath) + "\t" +
                                     PathUtilities.MakeRelative(fromAssemblyPath, project.CurrentConfigurationPath) +
-                                    "\n";                                
+                                    "\n";
                             }
                             else
                             {
@@ -191,7 +208,7 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
                             {
                                 MessageBox.Show("The project '" + transformation.ToAssemblyPath + "' could not be added. " +
                                                 "\nSkipped.", "Could not add project", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }                           
+                            }
                         }
                     }
 
@@ -277,5 +294,11 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
                 }
             }
         }
+
+        private IList<SolutionFolderModel> GetAllSolutionFolders()
+        {
+            return SolutionFolderUtil.GetSolutionFolders(Application);
+        }
+
     }
 }

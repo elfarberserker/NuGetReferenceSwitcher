@@ -98,9 +98,23 @@
                         </ItemsControl>
                     </ScrollViewer>
 
-                    <Button Grid.Row="2" Margin="8" Padding="4" Grid.Column="0" Grid.ColumnSpan="2"
-                            Content="Switch to Project references" Click="OnSwitchToProjectReferences" />
-                </Grid>
+					<StackPanel Margin="8" Grid.Row="2" Grid.ColumnSpan="2">
+						<DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+							<Button
+								Content="Save configuration changes"
+								Click="SaveConfig"
+								DockPanel.Dock="Right"
+								Margin="10,0,0,0"
+								Padding="4"
+								/>
+							<Button 
+								Content="Switch to Project references"
+								Click="OnSwitchToProjectReferences"
+								Padding="4"
+								/>
+						</DockPanel>
+					</StackPanel>
+				</Grid>
             </TabItem>
             <TabItem Header="Switch to NuGet references">
                 <Grid>
@@ -143,39 +157,93 @@
                     <StackPanel Margin="8" Grid.Row="2">
                         <CheckBox Content="Remove Projects from Solution" Margin="0,0,0,8"
                                   IsChecked="{Binding RemoveProjects, Mode=TwoWay}" />
-                        <Button Content="Switch to NuGet references" Click="OnSwitchToNuGetReferences" Padding="4" />
-                    </StackPanel>
+						<DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+							<Button
+								Content="Save configuration changes"
+								Click="SaveConfig"
+								DockPanel.Dock="Right"
+								Margin="10,0,0,0"
+								Padding="4"
+								/>
+							<Button 
+								Content="Switch to NuGet references"
+								Click="OnSwitchToNuGetReferences"
+								Padding="4"
+								/>
+						</DockPanel>
+					</StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="About">
-                <StackPanel Margin="8">
-                    <TextBlock Margin="0,0,0,8" FontSize="14">
+			<TabItem Header="Configuration">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<StackPanel Margin="8">
+
+						<TextBlock Text="Configuration" Grid.Row="0"
+                               FontWeight="Bold" FontSize="16" Margin="8" />
+						
+						<Label
+							Content="Root folder for Project references"
+							Margin="16,5,16,5"
+							/>
+						<ComboBox
+							Name="cmbFolders"
+							Margin="16,0,16,0"
+							Loaded="SolutionFolders_Loaded"
+							SelectionChanged="SolutionFolders_SelectionChanged"
+							>
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="{Binding Path}" />
+									</StackPanel>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+
+					<StackPanel Margin="8" Grid.Row="2">
+						<DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+							<Button
+								Content="Save configuration changes"
+								Click="SaveConfig"
+								DockPanel.Dock="Right"
+								Margin="10,0,0,0"
+								Padding="4"
+								/>
+						</DockPanel>
+					</StackPanel>
+				</Grid>
+			</TabItem>
+			<TabItem Header="About">
+				<StackPanel Margin="8">
+					<TextBlock Margin="0,0,0,8" FontSize="14">
                         NuGet Reference Switcher has been developed by 
                         <Hyperlink NavigateUri="http://www.rsuter.com" Click="OnOpenHyperlink">Rico Suter</Hyperlink>.
-                    </TextBlock>
-                    <TextBlock Margin="0,0,0,8" FontSize="14" FontWeight="Bold">
+					</TextBlock>
+					<TextBlock Margin="0,0,0,8" FontSize="14" FontWeight="Bold">
                         Read 
                         <Hyperlink NavigateUri="https://nugetreferenceswitcher.codeplex.com/wikipage?title=Guide" 
                                    Click="OnOpenHyperlink">this guide</Hyperlink>
                         about how to use the extension.
-                    </TextBlock>
-                    <TextBlock Margin="0,0,0,8">
+					</TextBlock>
+					<TextBlock Margin="0,0,0,8">
                         Version: <Run Text="{Binding ExtensionVersion, Mode=OneWay}" />, 
                         License: <Hyperlink NavigateUri="https://nugetreferenceswitcher.codeplex.com/license" Click="OnOpenHyperlink">Ms-PL</Hyperlink>
-                    </TextBlock>
-                    <TextBlock Text="Components" FontWeight="Bold" Margin="0,0,0,4" />
-                    <TextBlock Margin="0,0,0,4">
+					</TextBlock>
+					<TextBlock Text="Components" FontWeight="Bold" Margin="0,0,0,4" />
+					<TextBlock Margin="0,0,0,4">
                         - <Hyperlink NavigateUri="http://mytoolkit.codeplex.com" Click="OnOpenHyperlink">MyToolkit</Hyperlink>: 
                           .NET library with MVVM classes, controls and more components.
-                    </TextBlock>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Configuration">
-                <StackPanel Margin="8">
-                    
-                </StackPanel>
-            </TabItem>
-        </TabControl>
+					</TextBlock>
+				</StackPanel>
+			</TabItem>
+		</TabControl>
     </Grid>
 </PlatformUi:DialogWindow>
 

@@ -9,6 +9,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -85,6 +86,11 @@ namespace NuGetReferenceSwitcher.Presentation.Views
             Close();
         }
 
+        private async void SaveConfig(object sender, RoutedEventArgs e)
+        {
+            Model.SaveConfiguration();
+        }
+
         private void OnSelectProjectFile(object sender, RoutedEventArgs e)
         {
             var fntpSwitch = (FromNuGetToProjectTransformation)((Button)sender).Tag;
@@ -102,6 +108,29 @@ namespace NuGetReferenceSwitcher.Presentation.Views
 
             if (_dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 fntpSwitch.ToProjectPath = _dlg.FileName;
+        }
+
+        private void SolutionFolders_Loaded(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as System.Windows.Controls.ComboBox;
+            comboBox.ItemsSource = Model.SolutionFolders;
+            if (Model.Config.switchConfig != null)
+            {
+                var selected = comboBox.Items
+                    .Cast<SolutionFolderModel>()
+                    .Where(item => item.Path == Model.Config.switchConfig.rootFolder)
+                    .FirstOrDefault();
+                comboBox.SelectedItem = selected;
+            }
+        }
+        private void SolutionFolders_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as System.Windows.Controls.ComboBox;
+            var selected = comboBox.SelectedItem as SolutionFolderModel;
+            if (selected != null)
+            {
+                Model.Config.switchConfig.rootFolder = selected.Path;
+            }
         }
     }
 }

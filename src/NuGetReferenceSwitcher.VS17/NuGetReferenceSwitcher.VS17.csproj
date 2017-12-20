@@ -92,6 +92,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MyToolkit.Extended.2.3.12.0\lib\net45\MyToolkit.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -179,6 +182,10 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NuGetReferenceSwitcher.Configuration\NuGetReferenceSwitcher.Configuration.csproj">
+      <Project>{26b724ef-16a0-4c8b-927d-140155aeae88}</Project>
+      <Name>NuGetReferenceSwitcher.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NuGetReferenceSwitcher.Presentation\NuGetReferenceSwitcher.Presentation.csproj">
       <Project>{72D2BBE2-B1F7-4782-B7BD-CA377F895746}</Project>
       <Name>NuGetReferenceSwitcher.Presentation</Name>
