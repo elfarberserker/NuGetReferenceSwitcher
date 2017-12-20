@@ -41,6 +41,7 @@ namespace NuGetReferenceSwitcher.Presentation.Views
             Model.ExtensionAssembly = extensionAssembly; 
             Model.Application = application;
             Model.Dispatcher = Dispatcher;
+            Model.Config = new Configuration.ConfigManager(application);
 
             ViewModelHelper.RegisterViewModel(Model, this);
 

@@ -170,6 +170,11 @@
                     </TextBlock>
                 </StackPanel>
             </TabItem>
+            <TabItem Header="Configuration">
+                <StackPanel Margin="8">
+                    
+                </StackPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </PlatformUi:DialogWindow>

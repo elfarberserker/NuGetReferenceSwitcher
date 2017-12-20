@@ -22,6 +22,7 @@ using MyToolkit.Mvvm;
 using MyToolkit.Utilities;
 using NuGetReferenceSwitcher.Presentation.Models;
 using VSLangProj;
+using NuGetReferenceSwitcher.Presentation.Configuration;
 
 namespace NuGetReferenceSwitcher.Presentation.ViewModels
 {
@@ -40,6 +41,7 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
 
         /// <summary>Gets the projects of the current solution. </summary>
         public ExtendedObservableCollection<ProjectModel> Projects { get; private set; }
+        public ConfigManager Config { get; set; }
 
         /// <summary>Gets the NuGet to project switches which are shown in the first tab. </summary>
         public ExtendedObservableCollection<FromNuGetToProjectTransformation> Transformations { get; private set; }
@@ -93,6 +95,9 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
                 .GroupBy(r => r.Name)
                 .Select(g => new FromNuGetToProjectTransformation(projects, g.First()))
                 .OrderBy(s => s.FromAssemblyName));
+
+            Config.Load()
+
         }
 
         /// <summary>Switches the NuGet DLL references to the selected project references. </summary>
