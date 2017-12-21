@@ -56,6 +56,11 @@ namespace NuGetReferenceSwitcher.Presentation.Views
             get { return (MainDialogModel)Resources["ViewModel"]; }
         }
 
+        private void DialogWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void OnOpenHyperlink(object sender, RoutedEventArgs e)
         {
             var uri = ((Hyperlink)sender).NavigateUri;
@@ -86,9 +91,14 @@ namespace NuGetReferenceSwitcher.Presentation.Views
             Close();
         }
 
+        private async void Refresh(object sender, RoutedEventArgs e)
+        {
+            await Model.Refresh();
+        }
+
         private async void SaveConfig(object sender, RoutedEventArgs e)
         {
-            Model.SaveConfiguration();
+            await Model.SaveConfiguration();
         }
 
         private void OnSelectProjectFile(object sender, RoutedEventArgs e)

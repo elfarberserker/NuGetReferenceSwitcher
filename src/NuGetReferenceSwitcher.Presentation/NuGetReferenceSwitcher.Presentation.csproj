@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\NuGetToProjectModeConverter.cs" />
+    <Compile Include="Models\NugetReferenceFilterExtension.cs" />
     <Compile Include="Models\SolutionFolderModel.cs" />
     <Compile Include="Models\Reference4.cs" />
     <Compile Include="PathUtilities.cs" />

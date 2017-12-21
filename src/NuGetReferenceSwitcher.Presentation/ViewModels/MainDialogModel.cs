@@ -85,6 +85,8 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
         /// (after the InitializeComponent method of a <see cref="!:UserControl"/>). </summary>
         public override async void Initialize()
         {
+            Config.Load();
+
             List<ProjectModel> projects = null;
             await RunTaskAsync(token => Task.Run(() =>
             {
@@ -98,23 +100,39 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
             Projects.Initialize(projects);
             Transformations.Initialize(projects
                 .SelectMany(p => p.NuGetReferences)
+                .FilterByRegex(Config.NugetFilter)
                 .GroupBy(r => r.Name)
                 .Select(g => new FromNuGetToProjectTransformation(projects, g.First()))
                 .OrderBy(s => s.FromAssemblyName));
 
-            Config.Load()
-                .Save();
-
             var folders = GetAllSolutionFolders();
             SolutionFolders.Initialize(folders);
+
+            Config.Save();
         }
 
-        public async void SaveConfiguration()
+        public async Task Refresh()
         {
-            // Save all project configurations
+            await RunTaskAsync(token => Task.Run(() =>
+            {
+                // clear
+                Projects.Clear();
+                Transformations.Clear();
 
-            // Configuration
-            Config.Save();
+                //
+                Initialize();
+            }, token));
+        }
+
+        public async Task SaveConfiguration()
+        {
+            await RunTaskAsync(token => Task.Run(() =>
+            {
+                // Save all project configurations
+
+                // Configuration
+                Config.Save();
+            }, token));
         }
 
         /// <summary>Switches the NuGet DLL references to the selected project references. </summary>

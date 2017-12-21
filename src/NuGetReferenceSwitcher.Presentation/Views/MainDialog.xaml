@@ -7,7 +7,9 @@
         xmlns:PlatformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
         Title="Switch NuGet and Project references" 
         Height="700" Width="800" ResizeMode="CanResizeWithGrip"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+		Loaded="DialogWindow_Loaded"
+        >
 
     <Window.Resources>
         <viewModels:MainDialogModel x:Key="ViewModel" />
@@ -107,6 +109,13 @@
 								Margin="10,0,0,0"
 								Padding="4"
 								/>
+							<Button
+								Content="Refresh"
+								Click="Refresh"
+								DockPanel.Dock="Right"
+								Margin="10,0,0,0"
+								Padding="4"
+								/>
 							<Button 
 								Content="Switch to Project references"
 								Click="OnSwitchToProjectReferences"
@@ -161,6 +170,13 @@
 							<Button
 								Content="Save configuration changes"
 								Click="SaveConfig"
+								DockPanel.Dock="Right"
+								Margin="10,0,0,0"
+								Padding="4"
+								/>
+							<Button
+								Content="Refresh"
+								Click="Refresh"
 								DockPanel.Dock="Right"
 								Margin="10,0,0,0"
 								Padding="4"
