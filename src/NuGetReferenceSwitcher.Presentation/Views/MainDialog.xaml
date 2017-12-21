@@ -191,6 +191,7 @@
 							Content="Root folder for Project references"
 							Margin="16,5,16,5"
 							/>
+						
 						<ComboBox
 							Name="cmbFolders"
 							Margin="16,0,16,0"
@@ -205,6 +206,21 @@
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
+
+						<Label
+							Content="NuGet package filter ( Regular Expression )"
+							Margin="16,5,16,5"
+							/>
+
+						<TextBox 
+							Name="TextBox1"
+							Margin="16,0,16,0"
+							Text="{Binding Path=Config.NugetFilter, Mode=TwoWay}"
+							Loaded="NugetFilter_Loaded"
+							TextChanged="NugetFilter_Changed"
+							>
+						</TextBox>
+
 					</StackPanel>
 
 					<StackPanel Margin="8" Grid.Row="2">

@@ -127,9 +127,26 @@ namespace NuGetReferenceSwitcher.Presentation.Views
         {
             var comboBox = sender as System.Windows.Controls.ComboBox;
             var selected = comboBox.SelectedItem as SolutionFolderModel;
-            if (selected != null)
+            if (selected != null && Model.Config.switchConfig != null)
             {
                 Model.Config.switchConfig.rootFolder = selected.Path;
+            }
+        }
+
+        private void NugetFilter_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as System.Windows.Controls.TextBox;
+            if (Model.Config.switchConfig != null)
+            {
+                textBox.Text = Model.Config.NugetFilter;
+            }
+        }
+        private void NugetFilter_Changed(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as System.Windows.Controls.TextBox;
+            if (Model.Config.switchConfig != null)
+            {
+                Model.Config.switchConfig.nugetFilter = textBox.Text;
             }
         }
     }

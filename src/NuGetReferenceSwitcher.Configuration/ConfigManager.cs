@@ -23,8 +23,23 @@ namespace NuGetReferenceSwitcher.Configuration
 
         /// <summary>Gets or sets the Visual Studio application object. </summary>
         public DTE Application { get; set; }
+
+        /// <summary></summary>
+        public string NugetFilter
+        {
+            get
+            {
+                if (switchConfig != null)
+                {
+                    return switchConfig.nugetFilter;
+                }
+                return "";
+            }
+        }
+
         /// <summary>Config object</summary>
         public Config switchConfig { get; private set; }
+
         /// <summary>Returns root path of current solution</summary>
         public string solutionPath
         {
@@ -74,7 +89,10 @@ namespace NuGetReferenceSwitcher.Configuration
         {
             using (var file = File.CreateText(path))
             {
-                var serializer = JsonSerializer.Create();
+                var serializer = JsonSerializer.Create(new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented
+                });
                 serializer.Serialize(file, config);
             }
         }
