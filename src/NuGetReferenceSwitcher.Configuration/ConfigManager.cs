@@ -51,6 +51,18 @@ namespace NuGetReferenceSwitcher.Configuration
             }
         }
 
+        public string rootPath
+        {
+            get
+            {
+                if (switchConfig != null)
+                {
+                    return switchConfig.rootFolder;
+                }
+                return "";
+            }
+        }
+
         /// <summary>Load configuration</summary>
         public ConfigManager Load()
         {

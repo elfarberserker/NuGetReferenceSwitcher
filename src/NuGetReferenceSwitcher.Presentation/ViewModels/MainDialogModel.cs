@@ -279,8 +279,23 @@ namespace NuGetReferenceSwitcher.Presentation.ViewModels
             {
                 if (!string.IsNullOrEmpty(fromNuGetToProjectTransformation.ToProjectPath) && File.Exists(fromNuGetToProjectTransformation.ToProjectPath))
                 {
-                    var project = Application.Solution.AddFromFile(fromNuGetToProjectTransformation.ToProjectPath);
-                    var myProject = new ProjectModel((VSProject)project.Object, Application);
+                    ProjectModel myProject = null;
+
+                    if (!string.IsNullOrEmpty(this.Config.rootPath))
+                    {
+                        var solutionFolder = SolutionFolderUtil.FindProjectBySolutionPath(Application, this.Config.rootPath);
+                        if (solutionFolder != null)
+                        {
+                            var projectitem = solutionFolder.ProjectItems.AddFromFile(fromNuGetToProjectTransformation.ToProjectPath);
+                            myProject = new ProjectModel((VSProject)projectitem.SubProject.Object, Application);
+                        }
+                    }
+
+                    if (myProject == null)
+                    {
+                        Project project = Application.Solution.AddFromFile(fromNuGetToProjectTransformation.ToProjectPath);
+                        myProject = new ProjectModel((VSProject)project.Object, Application);
+                    }
                     fromNuGetToProjectTransformation.ToProject = myProject;
                 }
                 else

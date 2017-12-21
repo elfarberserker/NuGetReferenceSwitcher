@@ -82,5 +82,84 @@ namespace NuGetReferenceSwitcher.Presentation.Utils
             }
             return list;
         }
+
+        public static Project FindProjectBySolutionPath(DTE application, string path)
+        {
+            Project p = null;
+
+            var activeIDE = application as DTE2;
+            if (activeIDE == null)
+            {
+                return null;
+            }
+
+            Projects projects = activeIDE.Solution.Projects;
+
+            return FindProjectBySolutionPath(projects, path, "");
+        }
+        private static Project FindProjectBySolutionPath(Projects projects, string path, string parentFolderPath)
+        {
+            Project p = null;
+
+            var items = projects.GetEnumerator();
+            while (items.MoveNext())
+            {
+                var project = items.Current as Project;
+                if (project == null)
+                {
+                    continue;
+                }
+
+                if (project.Kind == vsProjectKindSolutionFolder)
+                {
+                    var name = project.Name;
+                    var projectPath = $"{parentFolderPath}/{name}";
+                    if (projectPath == path)
+                    {
+                        p = project;
+                        break;
+                    }
+
+                    p = FindProjectBySolutionPath(project, path, projectPath);
+                    if (p != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return p;
+        }
+        private static Project FindProjectBySolutionPath(Project parent, string path, string parentFolderPath)
+        {
+            Project p = null;
+            for (var i = 1; i <= parent.ProjectItems.Count; i++)
+            {
+                var project = parent.ProjectItems.Item(i).SubProject as Project;
+                if (project == null)
+                {
+                    continue;
+                }
+
+                if (project.Kind == vsProjectKindSolutionFolder)
+                {
+                    var name = project.Name;
+                    var projectPath = $"{parentFolderPath}/{name}";
+                    if (projectPath == path)
+                    {
+                        p = project;
+                        break;
+                    }
+
+                    p = FindProjectBySolutionPath(project, path, projectPath);
+                    if (p != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return p;
+        }
     }
 }
