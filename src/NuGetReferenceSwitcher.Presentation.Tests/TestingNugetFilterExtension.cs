@@ -34,7 +34,7 @@ namespace NuGetReferenceSwitcher.Presentation.Tests
         public void ShouldReturnFour()
         {
             var list = Models();
-            var pattern = @"^XAP(\.[^$]*?)?$";
+            var pattern = @"^Alpha(\.[^$]*?)?$";
 
             var results = list.FilterByRegex(pattern);
 
@@ -45,11 +45,11 @@ namespace NuGetReferenceSwitcher.Presentation.Tests
         {
             return new List<ReferenceModel>()
             {
-                new ReferenceModel(new TestReference("XAP")),
-                new ReferenceModel(new TestReference("XAP.Poet")),
-                new ReferenceModel(new TestReference("XAP.Sql")),
-                new ReferenceModel(new TestReference("XAP.Vinnustund.Connector")),
-                new ReferenceModel(new TestReference("System.Web"))
+                new ReferenceModel(new TestReference("Alpha")),
+                new ReferenceModel(new TestReference("Alpha.Uno")),
+                new ReferenceModel(new TestReference("Alpha.Dos")),
+                new ReferenceModel(new TestReference("Alpha.Tres.Ole")),
+                new ReferenceModel(new TestReference("Beta.Uno"))
             };
         }
     }
