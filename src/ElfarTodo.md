@@ -1,0 +1,13 @@
+### Todo
+- [x] Configuration tab
+- [x] Select root folder
+- [ ] Use configured folder in project switching
+- [x] Set nuget filter path to configuration
+- [ ] Filter out nuget packages that dont fit the filter
+    - [x] Create extension to filter List
+    - [x] Unit test extension
+    - [o] Apply extension to loading
+- [o] Refresh projects / references function
+- [x] Save configuration without switching
+- [ ] Move configuration for project to central config
+- [ ] Implement precommit-hook if project references are active
